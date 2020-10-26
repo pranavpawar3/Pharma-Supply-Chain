@@ -1,5 +1,10 @@
 <div id="delete-order-dialog">
-  <h1 mat-dialog-title>Are you sure that you'd like to delete order:  {{data.order.orderId}}?</h1>
+  <h1 mat-dialog-title>Are you sure that you'd like to delete order:  {{data.order.orderId}}? Retailer {{data.order.retailerId}} will be notified!! </h1>
+  <form action="mailto:pranav@yali.ai" method="post" enctype="text/plain">
+    <label for="name">Please enter remarks</label>
+    <input type="text" id="name" name="name">
+    <input type="submit" value="Notify">
+  </form>
   <div mat-dialog-actions align="center">
     <button mat-button [mat-dialog-close]="false" class="cancel">Cancel</button>
     <button mat-button cdkFocusInitial [mat-dialog-close]="true" class="delete">Delete Order</button>

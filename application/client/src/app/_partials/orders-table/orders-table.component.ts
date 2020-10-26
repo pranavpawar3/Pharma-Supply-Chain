@@ -21,7 +21,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class OrdersTableComponent implements OnInit {
   orders: MatTableDataSource<Order[]>;
   currentUser: any;
-  columnsToDisplay = ['orderId', 'productId', 'price', 'quantity', 'producerId', 'retailerId', 'status', 'trackingInfo'];
+  columnsToDisplay = ['orderId', 'productId', 'price', 'quantity', 'producerId', 'retailerId', 'shipperId','status','trackingInfo'];
   expandedElement: Order | null;
 
   @Input('regulator') regulator: boolean;
@@ -92,6 +92,41 @@ export class OrdersTableComponent implements OnInit {
     });
   }
 
+  // // create dialog with shipper select menu
+  // chooseTemp(orderid) {
+  //   // let shippers = [];
+  //   // this.api.getAllUsers().subscribe(allUsers => {
+  //   //   //console.log(allUsers);
+  //   //   var userArray = Object.keys(allUsers).map(function (userIndex) {
+  //   //     let user = allUsers[userIndex];
+  //   //     // do something with person
+  //   //     return user;
+  //   //   });
+
+  //   //   for (let u of userArray) {
+  //   //     if (u['usertype'] == "shipper") {
+  //   //       shippers.push(u);
+  //   //     }
+  //   //   }
+  //   // }, error => {
+  //   //   console.log(JSON.stringify(error));
+  //   //   alert("Problem choosing shipper: " + error['error']['message'])
+  //   // });
+
+  //   // Open ToShipper Dialog
+  //   const dialogRef = this.dialog.open(TempDialog, {
+  //     disableClose: false,
+  //     width: '600px'
+  //     // data: { shippers: shippers }
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       this.assignShipper(orderid, result['id']);
+  //     }
+  //   });
+  // }
+
   // producer
   assignShipper(orderid, shipperid) {
     this.api.id = orderid;
@@ -101,6 +136,18 @@ export class OrdersTableComponent implements OnInit {
     }, error => {
       console.log(JSON.stringify(error));
       alert("Problem assigning shipper: " + error['error']['message'])
+    });
+  }
+
+  getTemp(orderid, temp="20") {
+    console.log("got the id and temp");
+    this.api.id = orderid;
+    this.api.temp = temp;
+    this.api.getTemp().subscribe(api => {
+      this.api.queryOrders();
+    }, error => {
+      console.log(JSON.stringify(error));
+      alert("Problem getting Temperature: " + error['error']['message'])
     });
   }
 
@@ -169,6 +216,8 @@ export interface Order {
   quantity: number;
   producerId: string;
   retailerId: string;
+  shipperId:string;
+  // temp:string;
   currentOrderState: number;
   trackingInfo: string;
 }
@@ -183,11 +232,29 @@ export interface ShipperDialogData {
   styleUrls: ['./orders-table.component.scss'],
 })
 
+// @Component({
+//   selector: 'temp-dialog',
+//   templateUrl: './../dialogs/temp-dialog.html',
+//   styleUrls: ['./orders-table.component.scss'],
+// })
+
 export class ToShipperDialog implements OnInit {
   model: any;
   constructor(
     public dialogRef: MatDialogRef<ToShipperDialog>,
     @Inject(MAT_DIALOG_DATA) public data: ShipperDialogData) { }
+
+  ngOnInit() {
+    this.model = {};
+  }
+}
+
+export class TempDialog implements OnInit {
+  model: any;
+  constructor(
+    public dialogRef: MatDialogRef<TempDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: ShipperDialogData
+    ) { }
 
   ngOnInit() {
     this.model = {};

@@ -175,6 +175,22 @@ supplychainRouter.route('/assign-shipper/:id').put(function (request, response) 
         });
 });  //  process route /
 
+supplychainRouter.route('/get-temp/:id').put(function (request, response) {
+    submitTx(request, 'getTemp', request.params.id, request.query.temp)
+        .then((getTempResponse) => {
+            console.log('Process Temperature Assignment transaction.');
+            let order = Order.fromBuffer(getTempResponse);
+            console.log(`order ${order.orderId} : shipper = ${order.temp}, state = ${order.currentOrderState}`);
+            response.status(STATUS_SUCCESS);
+            response.send(order);
+        }, (error) => {
+            response.status(STATUS_SERVER_ERROR);
+            response.send(utils.prepareErrorResponse(error, STATUS_SERVER_ERROR,
+                "There was a problem in assigning temperature for order, ", request.params.id));
+        });
+});  //  process route /
+
+
 // This changes the status on the order, and adds a ship id
 supplychainRouter.route('/create-shipment-for-order/:id').put(function (request, response) {
     submitTx (request, 'createShipment', request.params.id, utils.getRandomNum())

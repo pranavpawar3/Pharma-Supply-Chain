@@ -59,6 +59,15 @@
                 <button *ngIf="element.currentOrderState==2 && currentUser.usertype=='producer'" [disabled]='element.currentOrderState==2?false:true' (click)="chooseShipper(element.orderId)" class="example-element-button">
                   Assign Shipper
                 </button>
+
+                <!-- <form>
+                  <label for="temp">Temperature</label>
+                   <input type="text" name="temp" id="temp"><br>
+                   <button *ngIf="element.currentOrderState==2 && currentUser.usertype=='producer'" [disabled]='element.currentOrderState==2?false:true' (click)="getTemp(element.orderId)" class="example-element-button">
+                    Set Temperature
+                  </button>
+                 </form> -->
+
                 <span *ngIf="element.currentOrderState>=3">
                   <p>
                     Shipment Packaged

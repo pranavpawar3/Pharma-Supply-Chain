@@ -218,6 +218,57 @@ class SupplychainContract extends Contract {
     }
 
     /**
+     * getTemp
+     *
+     * @param {Context} ctx the transaction context
+     * @param {String}  orderId
+     * @param {String}  newTemp
+     *
+     * Usage:  getTemp ('Order001', 40)
+    */
+
+    async getTemp(ctx, orderId, newTemp) {
+        console.info('============= getTemp ===========');
+        console.log("async getTemp is called")
+        if (orderId.length < 1) {
+            throw new Error('orderId is required as input')
+        }
+
+        if (newTemp.length < 1) {
+            throw new Error('newTemp is required as input')
+        }
+
+        //  Retrieve the current order using key provided
+        var orderAsBytes = await ctx.stub.getState(orderId);
+        if (!orderAsBytes || orderAsBytes.length === 0) {
+            throw new Error(`Error Message from getTemp: Order with orderId = ${orderId} does not exist.`);
+        }
+
+        // Convert order so we can modify fields
+        var order = Order.deserialize(orderAsBytes);
+
+        // Access Control: This transaction should only be invoked by designated Producer
+        let userId = await this.getCurrentUserId(ctx);
+ 
+        if ((userId != "admin") && // admin only has access as a precaution.
+            (userId != order.producerId))
+            throw new Error(`${userId} does not have access to assign a Temperature to order ${orderId}`);
+
+        // Change currentOrderState to SHIPMENT_ASSIGNED;
+        order.setStateToShipmentAssigned();
+        // Set shipperId
+        order.temp = newTemp;
+        // Track who is invoking this transaction
+        order.modifiedBy = userId;
+
+        // Update ledger
+        await ctx.stub.putState(orderId, order.toBuffer());
+
+        // Must return a serialized order to caller of smart contract
+        return order.toBuffer();
+    }
+
+    /**
      * createShipment
      *
      * @param {Context} ctx the transaction context

@@ -1,0 +1,13 @@
+<div id="temp-dialog">
+    <h1 mat-dialog-title>Give Temperature</h1>
+    <div mat-dialog-content>
+      <!-- <select class="form-control" name="shipper" [(ngModel)]="model.shipper" #shipper="ngModel" required>
+        <option *ngFor="let shipper of data.shippers" [ngValue]="shipper">{{ shipper.id }}</option>
+      </select> -->
+      <input type="text" name="temp" id="temp">
+    </div>
+    <div mat-dialog-actions align="center">
+      <button mat-button [mat-dialog-close]="model.temp" cdkFocusInitial [disabled]='model.temp!=null?false:true'>Set Temperature</button>
+    </div>
+  </div>
+  

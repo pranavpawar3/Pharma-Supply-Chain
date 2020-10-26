@@ -17,7 +17,8 @@ export class AuthService {
     // this.users = userService.getAll();
   }
 
-  baseUrl = "http://localhost:3000";
+  // baseUrl = "http://localhost:3000";
+  baseUrl = "http://260ed29d07f2.ngrok.io/";
 
 
   register(user){

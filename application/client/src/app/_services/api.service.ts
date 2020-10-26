@@ -11,6 +11,7 @@ export class ApiService {
   id: String = "";
   pwd: String = "";
   shipperid: String = "";
+  temp: String="";
   body: Object;
   options: Object;
   private OrdersData = new BehaviorSubject([]);
@@ -23,10 +24,12 @@ export class ApiService {
     4: "SHIPMENT_CREATED",
     5: "SHIPMENT_IN_TRANSIT",
     6: "SHIPMENT_RECEIVED",
-    7: "ORDER_CLOSED"
+    7: "ORDER_CLOSED",
+    8: "TEMP_ADDED"
   };
 
-  baseUrl = "http://localhost:3000";
+  // baseUrl = "http://localhost:3000";
+  baseUrl = "http://260ed29d07f2.ngrok.io";
 
   constructor(private httpClient: HttpClient, private userService: UserService) {}
 
@@ -129,6 +132,12 @@ export class ApiService {
     let headers = new HttpHeaders();
     headers = this.createUserAuthorizationHeader(headers);
     return this.httpClient.put(this.baseUrl + '/api/assign-shipper/' + this.id + '?shipperid=' + this.shipperid, {} ,{headers:headers})
+  }
+
+  getTemp() {
+    let headers = new HttpHeaders();
+    headers = this.createUserAuthorizationHeader(headers);
+    return this.httpClient.put(this.baseUrl + '/api/get-temp/' + this.id + '?temp=' + this.temp, {} ,{headers:headers})
   }
 
   createShipment() {

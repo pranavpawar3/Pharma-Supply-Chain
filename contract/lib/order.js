@@ -15,7 +15,8 @@ const orderState = {
     SHIPMENT_CREATED: 4,    // Shipper
     SHIPMENT_IN_TRANSIT: 5, // Shipper
     SHIPMENT_RECEIVED: 6,   // Retailer
-    ORDER_CLOSED: 7     // Not currently used
+    ORDER_CLOSED: 7,     // Not currently used
+    TEMP_ADDED: 8 //Producer
 };
 
 /**
@@ -68,6 +69,10 @@ class Order extends State {
 
     setStateToShipmentAssigned() {
         this.currentOrderState = orderState.SHIPMENT_ASSIGNED;
+    }
+
+    setStateToTempAdded() {
+        this.currentOrderState = orderState.TEMP_ADDED;
     }
 
     setStateToShipmentCreated() {
