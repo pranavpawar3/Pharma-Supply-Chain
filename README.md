@@ -2,6 +2,8 @@
 
 **MTX Hack Demo App Link - http://982269ff6871.ngrok.io/login**
 
+**Documentation Link -- [here](https://docs.google.com/document/d/1gPgo5jVdPvWC2hOPfmvakBOfPpTaOAtXkidFqEjuO3o/edit?usp=sharing)**
+
 ------------------
 # Implement attribute based access control to provide end to end visibility into the supply chain history of a particular product 
 ![appDemo](https://media.github.ibm.com/user/79254/files/07a8c100-6786-11ea-91bb-b87d07dc71b7)
